@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .container{
+            margin: 1.5rem 6.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        input, button{
+            font-size: 0.75rem;
+            padding: 0.5rem;
+        }   
+        input{
+            width: 20rem;
+        }
+        button{
+            background-color: black;
+            color: white;
+            border: 2px solid black;
+        }
+        .status{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            /* align-items: center; */
+        }
+        .status-box{
+            width: 19rem;
+            height: auto;
+            padding: 0.75rem;
+            margin: 1rem;
+            /* border: 2px solid black; */
+            background-color: black;
+            border-radius: 0.5rem;
+        }
+        .status-box h2{
+            text-align: center;
+            color: white;
+        }
+        .processing{
+            background-color: lightcoral;
+        }
+        .completed{
+            background-color: lightgreen;
+        }
+        .task{
+            background-color: #eee;
+            padding: 4px;
+            border-radius: 2px;
+            margin: 3px 0px;
+        }
+        .task p{
+            font-weight: bold;
+            margin: 0px;
+            margin-bottom: 3px;
+        }
+        .task label{
+            display: block;
+        }
+        .dropzone{
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Tracker</h1>
+        <div class="form">
+            <input type="text" id="task">
+            <button id="add">Assign</button>
+        </div>
+        <div class="status">
+            <div class="assigned status-box">
+                <h2>Assigned</h2>
+                <div class="dropzone" id="assigned"></div>
+            </div>
+            <div class="processing status-box">
+                <h2>Processing</h2>
+                <div class="dropzone" id="processing"></div>
+            </div>
+            <div class="completed status-box">
+                <h2>Completed</h2>
+                <div class="dropzone" id="completed"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tasks = []
+        let dropzones;
+        let draggables;
+        document.querySelector("#add").addEventListener("click", function(){
+            let task = document.querySelector("#task").value
+            let newTask = {
+                id: new Date().getTime(),
+                task: task,
+                assignedAt: new Date().toLocaleString(),
+                status: "assigned"
+            }
+            tasks.push(newTask)
+            document.querySelector("#task").value = ""
+            console.log(tasks);
+
+            displayTask()
+        })
+
+        function displayTask(){
+            let taskStr = ``
+            tasks.forEach( task => {
+                if( task.status === 'assigned'){
+                    taskStr += `
+                        <div id="${task.id}" class='task' draggable='true'>
+                            <p>${task.task}</p>
+                            <label>Assigned At: ${task.assignedAt}</label>
+                        </div>
+                    `
+                }
+            })
+            document.querySelector(".assigned .dropzone").innerHTML = ""
+            document.querySelector(".assigned .dropzone").innerHTML = taskStr
+            run()
+        }
+
+        function run(){
+            dropzones = document.querySelectorAll(".dropzone")
+            draggables = document.querySelectorAll(".task")
+
+            dropzones.forEach( dropzone => {
+                dropzone.addEventListener( 'dragover', dragOver )
+                dropzone.addEventListener( 'drop', drop )
+            })
+            draggables.forEach(draggable => draggable.addEventListener('dragstart', dragStart))
+        }
+        run()
+
+        function dragStart(event){
+            event.dataTransfer.setData('text', event.target.id)
+        }
+
+        function dragOver(event){
+            event.preventDefault()
+        }
+
+        function drop(event){
+            event.preventDefault()
+            const data = event.dataTransfer.getData('text');
+            const draggableElement = document.getElementById(data)
+            const dropzone  = event.target
+            // console.log(dropzone.id);
+            // console.log(draggableElement.id);
+
+            if(dropzone.classList.contains('dropzone')){
+                let taskId = draggableElement.id
+                let dropzoneId = dropzone.id
+                event.target.appendChild(draggableElement)
+
+                tasks.forEach(task => {
+                    if(task.id == taskId){
+                        task.status = dropzoneId
+                    }
+                })
+                console.log(tasks);
+            }
+        }
+    </script>
+</body>
+</html>

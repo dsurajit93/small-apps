@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drag and Drop Example</title>
+<style>
+    .drag {
+        width: 100px;
+        height: 50px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        line-height: 50px;
+        margin: 10px;
+        cursor: move;
+    }
+
+    .dropzone {
+        width: 200px;
+        height: 100px;
+        background-color: #f2f2f2;
+        border: 2px dashed #ccc;
+        margin-top: 20px;
+        padding: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div id="draggable" class="drag" draggable="true">
+    Drag Me!
+</div>
+
+<div id="dropzone" class="dropzone">
+    Drop Here
+</div>
+
+<script>
+    const draggableElement = document.getElementById('draggable');
+    const dropzone = document.getElementById('dropzone');
+
+    draggableElement.addEventListener('dragstart', dragStart);
+    dropzone.addEventListener('dragover', dragOver);
+    dropzone.addEventListener('drop', drop);
+
+    function dragStart(event) {
+        // Set the drag data and specify the type of drag (text in this case)
+        event.dataTransfer.setData('text', event.target.id);
+    }
+
+    function dragOver(event) {
+        event.preventDefault(); // Necessary. Allows us to drop.
+    }
+
+    function drop(event) {
+        event.preventDefault(); // Prevent default behavior (open as link for some elements)
+
+        const data = event.dataTransfer.getData('text'); // Get the dragged data
+        const draggableElement = document.getElementById(data);
+
+        // Append dragged element to drop target
+        event.target.appendChild(draggableElement);
+    }
+</script>
+
+</body>
+</html>

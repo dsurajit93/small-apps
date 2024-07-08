@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Task Tracker</h1>
+        <div class="form">
+            <input type="text" id="task" placeholder="Enter task...">
+            <button id="add">Assign</button>
+        </div>
+        <div class="status">
+            <div class="status-box" id="assigned">
+                <h2>Assigned</h2>
+                <div class="dropzone" id="assigned-tasks"></div>
+            </div>
+            <div class="status-box" id="processing">
+                <h2>Processing</h2>
+                <div class="dropzone" id="processing-tasks"></div>
+            </div>
+            <div class="status-box" id="completed">
+                <h2>Completed</h2>
+                <div class="clear-task-div">
+                    <a href="#" id="clearTask">Clear Completed Task</a>
+                </div>
+                <div class="dropzone" id="completed-tasks"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>

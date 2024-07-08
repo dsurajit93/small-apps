@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drag and Drop Example</title>
+<style>
+    .box {
+        width: 200px;
+        /*height: 200px;*/
+        height: auto;
+        border: 2px dashed #ccc;
+        margin: 10px;
+        padding: 10px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .drag {
+        width: 80px;
+        height: 40px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        line-height: 40px;
+        margin: 5px;
+        cursor: move;
+    }
+</style>
+</head>
+<body>
+
+<div id="box1" class="box">
+    <div id="item1" class="drag" draggable="true">Item 1</div>
+    <div id="item2" class="drag" draggable="true">Item 2</div>
+    <div id="item3" class="drag" draggable="true">Item 3</div>
+</div>
+
+<div id="box2" class="box">
+    <div id="item4" class="drag" draggable="true">Item 4</div>
+    <div id="item5" class="drag" draggable="true">Item 5</div>
+    <div id="item6" class="drag" draggable="true">Item 6</div>
+</div>
+
+<script>
+    const draggables = document.querySelectorAll('.drag');
+    const boxes = document.querySelectorAll('.box');
+
+    // Add dragstart event listeners to all draggable items
+    draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', dragStart);
+    });
+
+    // Add dragover and drop event listeners to all drop zones (boxes)
+    boxes.forEach(box => {
+        box.addEventListener('dragover', dragOver);
+        box.addEventListener('drop', drop);
+    });
+
+    function dragStart(event) {
+        // Set the drag data
+        event.dataTransfer.setData('text', event.target.id);
+    }
+
+    function dragOver(event) {
+        event.preventDefault(); // Necessary. Allows us to drop.
+    }
+
+    function drop(event) {
+        event.preventDefault(); // Prevent default behavior (open as link for some elements)
+
+        const data = event.dataTransfer.getData('text'); // Get the dragged data
+        const draggableElement = document.getElementById(data);
+
+        // Append dragged element to drop target
+        event.target.appendChild(draggableElement);
+    }
+</script>
+
+</body>
+</html>

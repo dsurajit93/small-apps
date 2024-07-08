@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .drop-box{
+            border: 2px dashed gray;
+            width: 300px;
+            height: auto;
+            margin: 20px;
+            padding: 10px;
+        }
+        .card{
+            background-color: black;
+            color: white;
+            height: 30px;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="drop-box">
+        <div id="card1" class="card" draggable="true">
+            <h4>Item 1</h4>
+        </div>
+        <div id="card2" class="card" draggable="true">
+            <h4>Item 2</h4>
+        </div>
+    </div>
+    <div class="drop-box">
+
+    </div>
+    <div class="drop-box">
+
+    </div>
+
+    <script>
+        const dropZones = document.querySelectorAll('.drop-box')
+        const draggables = document.querySelectorAll(".card")
+
+        dropZones.forEach( dropzone =>{
+            dropzone.addEventListener('dragover', dragOver)
+            dropzone.addEventListener('drop', drop)
+        })
+        draggables.forEach(draggable => draggable.addEventListener('dragstart', dragStart) )
+
+        function dragStart(event){
+            event.dataTransfer.setData('text', event.target.id)
+            console.log("drag start");
+        }
+
+        function dragOver(event){
+            event.preventDefault()
+        }
+
+        function drop(event){
+            event.preventDefault()
+            const data = event.dataTransfer.getData('text');
+            const draggableElement = document.getElementById(data)
+            const dropzone  = event.target
+
+            if(dropzone.classList.contains('drop-box')){
+                event.target.appendChild(draggableElement)
+            }
+        }
+
+    </script>
+</body>
+</html>
