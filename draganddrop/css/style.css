@@ -47,10 +47,11 @@ button {
 .status {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .status-box {
-    width: 30%;
+    width: 18rem;
     padding: 10px;
     background-color: #f8f9fa;
     border: 1px solid #ddd;
