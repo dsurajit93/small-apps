@@ -53,6 +53,7 @@ button {
 
 .status-box {
     width: 18rem;
+    margin: 1rem;
     padding: 10px;
     background-color: #f8f9fa;
     border: 1px solid #ddd;
