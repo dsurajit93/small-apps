@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Autocomplete Enabler",
+    "version": "1.0",
+    "description": "Enables autocomplete for input fields on a webpage.",
+    "permissions": ["activeTab"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon16.png",
+        "48": "icon16.png",
+        "128": "icon16.png"
+      }
+    },
+    "icons": {
+      "16": "icon16.png",
+      "48": "icon16.png",
+      "128": "icon16.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
+  }
